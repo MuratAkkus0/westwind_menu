@@ -1,8 +1,22 @@
 @import "tailwindcss";
-@import "./theme.css";
 
+/* Maps the colour values from theme.css to Tailwind colour names. */
 @theme inline {
   --font-sans: var(--font-geist-sans);
+  --color-bg: var(--ww-bg);
+  --color-surface: var(--ww-surface);
+  --color-surface-muted: var(--ww-surface-muted);
+  --color-text: var(--ww-text);
+  --color-muted: var(--ww-muted);
+  --color-border: var(--ww-border);
+  --color-primary: var(--ww-primary);
+  --color-primary-fg: var(--ww-primary-fg);
+  --color-accent: var(--ww-accent);
+  --color-accent-fg: var(--ww-accent-fg);
+  --color-danger: var(--ww-danger);
+  --color-danger-fg: var(--ww-danger-fg);
+  --color-success: var(--ww-success);
+  --color-backdrop: var(--ww-backdrop);
 }
 
 html {

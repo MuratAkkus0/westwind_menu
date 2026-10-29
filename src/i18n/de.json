@@ -32,6 +32,8 @@
   "menu.from": "ab {price}",
   "menu.soldOut": "ausverkauft",
   "menu.added": "{name} hinzugefügt",
+  "menu.quickAdd": "{name} direkt hinzufügen",
+  "table.orderSummary": "Bestellung · {count} Pos. · {total}",
 
   "product.variant": "Variante",
   "product.required": "Pflicht",

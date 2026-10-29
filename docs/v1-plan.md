@@ -10,7 +10,7 @@ Durum: ⬜ başlamadı · 🔄 devam ediyor · ✅ bitti
 | 1 | Menü verisi | ✅ |
 | 2 | Temel (i18n, tema, store, iskelet) | ✅ |
 | 3 | Masalar ekranı | ✅ |
-| 4 | Sipariş ekranı | ⬜ |
+| 4 | Sipariş ekranı | ✅ |
 | 5 | Bitiriş | ⬜ |
 
 ## 0. Kurulum

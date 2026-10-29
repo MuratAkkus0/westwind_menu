@@ -1,5 +1,6 @@
-/* Single source of truth for all colours. Components use the Tailwind names
-   below (bg-surface, text-muted, …) and never hard-code colour values. */
+/* Single source of truth for all colour values. globals.css maps them to
+   Tailwind names (bg-surface, text-muted, …); components never hard-code
+   colour values. Imported from layout.tsx so the variables load as plain CSS. */
 
 :root {
   --ww-bg: #f6f3ee;
@@ -35,21 +36,4 @@
     --ww-success: #5cc58a;
     --ww-backdrop: rgb(0 0 0 / 0.6);
   }
-}
-
-@theme inline {
-  --color-bg: var(--ww-bg);
-  --color-surface: var(--ww-surface);
-  --color-surface-muted: var(--ww-surface-muted);
-  --color-text: var(--ww-text);
-  --color-muted: var(--ww-muted);
-  --color-border: var(--ww-border);
-  --color-primary: var(--ww-primary);
-  --color-primary-fg: var(--ww-primary-fg);
-  --color-accent: var(--ww-accent);
-  --color-accent-fg: var(--ww-accent-fg);
-  --color-danger: var(--ww-danger);
-  --color-danger-fg: var(--ww-danger-fg);
-  --color-success: var(--ww-success);
-  --color-backdrop: var(--ww-backdrop);
 }

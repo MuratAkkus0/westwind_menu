@@ -126,3 +126,14 @@ Yok. Kapanan kararlar:
 - Masa numarası girişinde virgül, nokta, noktalı virgül ve boşluk ayırıcıdır (`3.14.2` de çalışır), çünkü telefonların sayı klavyelerinde farklı ayırıcı tuşları var. Alan `inputMode="decimal"` ile sayı klavyesi açar. (otonom karar)
 - Masa numarası 1–999 arası tam sayı. Geçersiz girdide geçerli numaralar yine eklenir, girdi alanı düzeltme için silinmez. (otonom karar)
 - Masa kutuları numaraya göre sıralı; siparişi olan masa dolu renkte, kalem sayısı ve toplamı gösterir. (otonom karar)
+
+## Aşama 4 — otonom kararlar
+
+- Masa ekranı yolu `/table?number=3`. Statik export her masa numarası için sayfa üretemeyeceği için numara query parametresinden okunur. (otonom karar)
+- Masa ekranında iki sekme var: "Menü" ve "Bestellung (n)". Menüde altta sabit "Bestellung · n Pos. · toplam" düğmesi var, üst barda toplam her zaman görünür. (otonom karar)
+- Ürün satırına dokunma davranışı: seçeneği olmayan ürün tek dokunuşla eklenir. Seçeneği olan ürün seçim panelini açar. Tek fiyatlı ve zorunlu seçimi olmayan ürünlerde (ör. Espresso) ayrıca sağda "+" düğmesi var, varsayılanla tek dokunuşta ekler. (otonom karar)
+- Ürün paneli zorunlu seçim eksikse ekleme yapmaz ve eksik grupları kırmızıyla gösterir. Tekli isteğe bağlı gruplar (ör. Einlage, Dressing) tekrar dokunulunca kaldırılabilir. (otonom karar)
+- Adisyonda kalem adedi 0'a inerse kalem silinir. Not, kalem üzerinden sonradan eklenip düzenlenebilir. (otonom karar)
+- Hesap kapatma: ödeme yöntemi Bar / Karte / Keine Angabe (varsayılan). Karte seçilip toplam 15,00 €'nun altındaysa uyarı gösterilir ama engellenmez. Masa iptali onay ister. İkisinde de ana ekrana dönülür, masa kutusu kalkar. (otonom karar)
+- Tükendi yönetimi Einstellungen sayfasında, arama ile. Tükenen ürün menüde soluk ve "ausverkauft" olarak görünür, eklenemez. (otonom karar)
+- Renk değerleri `theme.css`'te kalır ama layout'tan doğrudan import edilir. Tailwind eşlemesi `globals.css`'te yapılır. Neden: dev modunda `@import` ile gelen `:root` değişkenleri CSS'e girmiyordu. (otonom karar)

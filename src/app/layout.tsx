@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist } from "next/font/google";
 import { translate, DEFAULT_LANGUAGE } from "@/i18n";
 import { StoreHydrator } from "@/store/hydration";
+import "./theme.css";
 import "./globals.css";
 
 const geistSans = Geist({
