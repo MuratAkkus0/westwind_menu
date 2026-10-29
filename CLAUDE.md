@@ -32,4 +32,6 @@ Westwind restoranı için garson telefonunda çalışan, localStorage tabanlı m
 - Next.js App Router, statik export; pnpm; Zustand persist (`westwind:v1`); Tailwind, renkler tek token dosyasında.
 - Menü verisi `src/data/menu.ts`; kaynak PDF'ler `reference/`.
 - Arayüz metinleri `src/i18n/de.json`.
-- Sürümler Aşama 0'da çevrimiçi doğrulanır.
+- Sürümler: Node 24, pnpm 12, Next.js 16.4, React 19.3, Tailwind 4.3, Zustand 5, Vitest 5, Playwright 1.64.
+- "Bitti" kontrolü: `pnpm lint && pnpm typecheck && pnpm test && pnpm e2e && pnpm e2e:static`.
+- Renkler: değerler `src/app/theme.css`, Tailwind eşlemesi `src/app/globals.css`.

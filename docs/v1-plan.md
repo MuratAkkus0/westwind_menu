@@ -11,7 +11,7 @@ Durum: ⬜ başlamadı · 🔄 devam ediyor · ✅ bitti
 | 2 | Temel (i18n, tema, store, iskelet) | ✅ |
 | 3 | Masalar ekranı | ✅ |
 | 4 | Sipariş ekranı | ✅ |
-| 5 | Bitiriş | ⬜ |
+| 5 | Bitiriş | ✅ |
 
 ## 0. Kurulum
 - Node/pnpm sürümlerini çevrimiçi ve yerelde doğrula; güncelleme gerekiyorsa kullanıcıdan onay al.

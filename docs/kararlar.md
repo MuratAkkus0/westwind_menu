@@ -137,3 +137,9 @@ Yok. Kapanan kararlar:
 - Hesap kapatma: ödeme yöntemi Bar / Karte / Keine Angabe (varsayılan). Karte seçilip toplam 15,00 €'nun altındaysa uyarı gösterilir ama engellenmez. Masa iptali onay ister. İkisinde de ana ekrana dönülür, masa kutusu kalkar. (otonom karar)
 - Tükendi yönetimi Einstellungen sayfasında, arama ile. Tükenen ürün menüde soluk ve "ausverkauft" olarak görünür, eklenemez. (otonom karar)
 - Renk değerleri `theme.css`'te kalır ama layout'tan doğrudan import edilir. Tailwind eşlemesi `globals.css`'te yapılır. Neden: dev modunda `@import` ile gelen `:root` değişkenleri CSS'e girmiyordu. (otonom karar)
+
+## Aşama 5 — otonom kararlar
+
+- `trailingSlash: true`: export `table/index.html` üretir, böylece her sade statik sunucu `/table/?number=3` adresini sayfa yenilemede de bulur. (otonom karar)
+- "Hinzufügen" düğmesi store yüklenene kadar devre dışı. Yavaş ağda erken dokunuş native form gönderimiyle sayfayı yenilemesin diye. (otonom karar)
+- `pnpm e2e:static` aynı testleri `out/` klasörüne karşı `serve` ile çalıştırır. Python `http.server` eşzamanlı isteklerde chunk düşürdüğü için kullanılmadı. (otonom karar)

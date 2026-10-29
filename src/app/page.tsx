@@ -64,9 +64,11 @@ export default function TablesPage() {
             aria-describedby={feedback ? "table-feedback" : undefined}
             className="h-12 min-w-0 flex-1 rounded-xl border border-border bg-surface px-4 text-lg outline-none focus:border-primary"
           />
+          {/* Disabled until hydrated, so an early tap cannot trigger a native form submit. */}
           <button
             type="submit"
-            className="h-12 shrink-0 rounded-xl bg-accent px-5 font-semibold text-accent-fg active:opacity-80"
+            disabled={!hydrated}
+            className="h-12 shrink-0 rounded-xl bg-accent px-5 font-semibold text-accent-fg active:opacity-80 disabled:opacity-50"
           >
             {t("tables.add")}
           </button>
