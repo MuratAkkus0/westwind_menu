@@ -9,7 +9,7 @@ Veri yalnızca cihazın localStorage'ında durur. v2 kapsamı: [v2-yapilacaklar.
 |---|---|
 | Dil | TypeScript |
 | Framework | Next.js (App Router), statik export (`output: 'export'`) |
-| Sürümler | Güncel LTS/son kararlı; Aşama 0'da çevrimiçi doğrulanır (doğrulanmadı). Kurulum/güncelleme yalnızca kullanıcı onayıyla |
+| Sürümler | Node v24.22.0 (yerelde kurulu, LTS hattı; yeterli, güncelleme gerekmez), pnpm 12.14.0 (yerel; son 12.16.1, gerekmez). Next.js ve Tailwind son kararlı sürümü kurulumda `npm view` ile doğrulanır (bugün: Next 16.4.3, Tailwind 4.3.3). Sistem/global araç kurulumu yalnızca kullanıcı onayıyla |
 | Paket yöneticisi | pnpm |
 | Stil | Tailwind CSS; tüm renkler tek dosyada token (tek dosyadan değişen varsayılan palet) |
 | State + kalıcılık | Zustand + `persist` (localStorage), sürümlü şema + migration |
@@ -57,7 +57,7 @@ Ayarlar sayfası küçük tutulur; localStorage'da tek bir `settings` nesnesi, k
 - Zaten var olan numara tekrar eklenmez (sessizce atlanır, kullanıcıya "zaten var" bilgisi).
 - Geçersiz girdi (harf, boş, 0, negatif) satır içi hata ile reddedilir.
 - Kutucuğa tıklayınca o masanın sipariş ekranı açılır.
-- Masanın kaldırılması/hesap kapandıktan sonra kutunun ana ekranda kalıp kalmayacağı: bkz. §9 (açık karar).
+- Hesap kapatılınca veya açık adisyon iptal edilince masa kutusu ana ekrandan kalkar.
 
 ## 5. Menü modeli
 
@@ -68,7 +68,7 @@ Ayarlar sayfası küçük tutulur; localStorage'da tek bir `settings` nesnesi, k
 - Frühstück/Mittagstisch/hafta sonu/kış ürünleri zamana göre otomatik gizlenmez; hepsi görünür.
 - Veri girişinde PDF'teki yazım tutarsızlıkları düzeltilir ve "(otonom karar)" ile not edilir.
 
-## 6. Sipariş modeli (geçici — bkz. §9)
+## 6. Sipariş modeli
 
 - Masa başına tek açık adisyon; kalemler eklenir.
 - Kalem: ürün adı ve fiyat **anlık görüntü (snapshot)** olarak saklanır; menü değişse eski sipariş bozulmaz.
@@ -90,7 +90,9 @@ Ayarlar sayfası küçük tutulur; localStorage'da tek bir `settings` nesnesi, k
 
 ## 9. Açık kararlar
 
-1. **Sipariş modeli / adisyon:** kullanıcı "neyden bahsettiğini anlamadım" dedi; tartışılacak. Geçici öneri: masa başına tek açık adisyon (§6). Bağlı alt soru: hesap kapanınca masa kutusu ana ekrandan kalksın mı (öneri: kalksın; masa tekrar eklenir).
+Yok. Kapanan kararlar:
+1. **Adisyon modeli:** A seçildi — masa başına tek açık adisyon, tur/gönderim kavramı yok.
+2. **Hesap kapanınca:** masa kutusu ana ekrandan kalkar; masa tekrar kullanılacaksa numarası yeniden eklenir.
 
 ## 10. Çalışma şekli
 

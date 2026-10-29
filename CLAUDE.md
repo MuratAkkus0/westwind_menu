@@ -11,7 +11,6 @@ Westwind restoranı için garson telefonunda çalışan, localStorage tabanlı m
 
 ### Ne zaman durup sorulur
 - kararlar.md'de olmayan ve geri alınması zor karar; kararlar.md ile çelişen ihtiyaç.
-- kararlar.md §9'daki açık kararlar çözülmeden ilgili kod yazılmaz.
 - Diğer her şeyde kararlara uyarak devam et; küçük kararları "(otonom karar)" ile kararlar.md'ye ekle.
 
 ### Kesin yasaklar
