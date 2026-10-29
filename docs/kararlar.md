@@ -99,3 +99,14 @@ Yok. Kapanan kararlar:
 - Commit ve push izni verildi (repo: https://github.com/MuratAkkus0/westwind_menu.git, dal: `main`).
 - Commit mesajı: tek satır, İngilizce, Conventional Commits, AI atıf/Co-Authored-By satırı yok.
 - Aşama aşama ilerlenir; her aşama sonunda özet + onay.
+
+## Aşama 1 — otonom kararlar
+
+- Menü dosyası üç parçalı: `menu-types.ts` (tipler), `menu-builders.ts` (id üreten yardımcılar), `menu.ts` (veri). Ürün id'si `bölüm--kategori--ürün-adı` slug'ıdır; ad değişirse id değişir. (otonom karar)
+- Kategoriler PDF başlıklarını izler. Tapas, Weine ve Warme Getränke alt başlıkları ayrı kategori oldu (ör. "Tapas Fisch", "Warme Getränke mit Schuss"). Tapas başlığındaki "Portion Brot", "Tapas Veggi" altına kondu. (otonom karar)
+- Fiyatı aynı olan seçimler zorunlu tekli seçim grubu oldu (Kakao-Sorte, Tee-Sorte, Saft, Thai Curry rot/gelb/grün…). Fiyatı farklı olanlar varyant oldu (Größe, Glas/Karaffe/Flasche, "mit Amaretto"). Fiyat farkı ürün üstüne eklenen seçimler Aufpreis seçeneği oldu (Thai Curry + Hähnchen 16,90 € = 13,90 € + 3,00 €). (otonom karar)
+- Ortak ekstralar: Kaffee (Hafermilch / laktosefrei / entkoffeiniert +0,50, Extra Shot +1,50, Geeist +1,00), Aroma +0,50 (Milchkaffee, Cappuccino, Latte), Hafermilch/laktosefrei +0,50 süt bazlı sıcak içeceklerde, Mohn +0,50 (Pfannkuchen süß, Waffeln), Sahne +1,00 (Waffeln, Kakao), Salatbeilage +2,00 (Mittagstisch ana yemekleri), Dressing (tüm Salate), Toppings (yalnızca Gemischter Salat). (otonom karar)
+- Mittagstisch ürün adlarında PDF'teki numara korundu ("1. Backfisch …"), çünkü garson numarayla arayabilir. (otonom karar)
+- Saisonale Speisen'deki Elbling, Saisonal kartında ayrıca duruyor (0,1l fiyatı orada 3,50 €; Speisekarte'de 3,60 €). (otonom karar)
+- Zusatzstoffe yalnızca ürün düzeyinde ve PDF'te açıkça işaretli olanlar için girildi; varyanta bağlı işaretler (ör. Rühreier mit Speckwürfeln) girilmedi. (otonom karar)
+- PDF yazım düzeltmeleri: Mandekuchen → Mandelkuchen, Serrano Schinke → Schinken, Gratein & Meyer Crémat → Gratien & Meyer Crémant, Pigueras → Piqueras, Blody Mary → Bloody Mary, Pringels → Pringles, Ramazotti → Ramazzotti, Roibush → Rooibos, Bailey's → Baileys, Glühgin fiyatındaki fazladan "(" atıldı. "Pimentos del Patron" ve "Fuetec" PDF'teki gibi bırakıldı. (otonom karar)
