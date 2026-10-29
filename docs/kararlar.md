@@ -61,7 +61,7 @@ Ayarlar sayfası küçük tutulur; localStorage'da tek bir `settings` nesnesi, k
 
 ## 5. Menü modeli
 
-- Yapı: **Bölüm** (Speisekarte, Mittagstisch, Saisonale Speisen) → **Kategori** → **Ürün**.
+- Yapı: **Ana kategori** (Speisekarte başlıkları: Frühstück, Tapas, Unsere Klassiker, Salate …; ayrıca Mittagstisch ve Saisonale Speisen) → **Alt kategori** (ör. Frühstück → Extras zum Frühstück; Tapas → Veggi / Fleisch / Fisch) → **Ürün**. Bkz. "Değişiklik 2026-10-29".
 - Ürün: `id`, `name`, `description?`, `station` (`kitchen` | `bar`; v2 yönlendirme kancası), `additives?` (Zusatzstoffe numaraları; v1'de UI'da gösterilmez), `variants` (en az bir; ad + cent fiyat; ör. 0,3l / 0,5l, klein / groß), `optionGroups?` (ekstralar/Aufpreis; ör. Hafermilch +0,50, Mohn +0,50, Sahne +1,00; seçim grubu: tekli veya çoklu, zorunlu/isteğe bağlı).
 - Sipariş kaleminde serbest metin **Not**.
 - Menüde uygulama içi düzenleme yok; fiyat/ürün değişikliği dosyadan. Tek istisna: ürün bazında "tükendi" anahtarı.
@@ -85,7 +85,7 @@ Ayarlar sayfası küçük tutulur; localStorage'da tek bir `settings` nesnesi, k
 ## 8. Arayüz
 
 - Sayfalar: Masalar (ana), Masa detayı (sipariş + menü), Ayarlar.
-- Masa detayı: üstte bölüm sekmeleri, kategori çipleri, arama (aksan ve büyük/küçük harf duyarsız, Almanca), "son kullanılanlar", altta sabit toplam + "Hesabı kapat".
+- Masa detayı: arama (aksan ve büyük/küçük harf duyarsız, Almanca), ana kategoriler kare kart grid'i ("Zuletzt" kartı ilk sırada), karta dokununca ürünler alt kategori başlıkları altında listelenir; altta sabit toplam + "Abrechnen".
 - Boş / yükleniyor / hata durumları tanımlı; mobil-öncelikli; tema: sistem (açık/koyu), tüm renkler token.
 
 ## 9. Açık kararlar
@@ -143,3 +143,12 @@ Yok. Kapanan kararlar:
 - `trailingSlash: true`: export `table/index.html` üretir, böylece her sade statik sunucu `/table/?number=3` adresini sayfa yenilemede de bulur. (otonom karar)
 - "Hinzufügen" düğmesi store yüklenene kadar devre dışı. Yavaş ağda erken dokunuş native form gönderimiyle sayfayı yenilemesin diye. (otonom karar)
 - `pnpm e2e:static` aynı testleri `out/` klasörüne karşı `serve` ile çalıştırır. Python `http.server` eşzamanlı isteklerde chunk düşürdüğü için kullanılmadı. (otonom karar)
+
+## Değişiklik 2026-10-29 — menü gezintisi (kullanıcı kararı)
+
+- Üstteki Speisekarte / Mittagstisch / Saisonale Speisen sekmeleri ve kategori pill'leri kaldırıldı.
+- Menü sekmesi ana kategori kartlarından oluşan bir grid gösterir (kart üzerinde ad + ürün sayısı). Karta dokununca ürünler alt kategori başlıkları altında listelenir; "Alle Kategorien" ile grid'e dönülür.
+- Ana kategoriler Speisekarte.pdf'teki başlık sırasını izler: Frühstück (+ Extras zum Frühstück), Tapas (Veggi, Fleisch, Fisch), Unsere Klassiker, Salate, Pfannkuchen (Herzhaft, Süß), Frische Waffeln, Noch mehr Süßes, Mittagstisch, Saisonale Speisen, Warme Getränke (+ Mit Schuss), Tee, Espresso & Kaffee, Alkoholfreie Getränke, Biere (Vom Fass, Flaschenbiere), Sekt …, Weine (Rot, Rosé, Weiß), Aperitif, Longdrinks & Cocktails (+ Alkoholfreie Cocktails), Special Drinks, Spirituosen, Zum Knabbern.
+- Spirituosen tek kartta toplandı (Gin, Whiskey, Brandy & Cognac, Liköre, Rum, Brände & Grappa, Diverse, Köm), grid 30 kartı aşmasın diye. (otonom karar)
+- Mittagstisch ve Saisonale Speisen ayrı kart olarak kaldı: kullanıcı bunların Speisekarte'de zaten olduğunu düşünüyordu, fakat çoğu ürün (Backfisch, Currywurst, Schnitzel, Burger, Leberkäse, Kichererbsencurry …) ve öğle fiyatları Speisekarte.pdf'te yok; silinseydi bu ürünler sipariş edilemezdi. Kaldırılması istenirse `src/data/menu.ts` içinde iki satır. (otonom karar, kullanıcıya bildirildi)
+- Ürün id'leri artık `ana-kategori--alt-kategori--ürün` biçiminde (alt kategori adı ana kategoriyle aynıysa tek parça). localStorage şeması v2: geçişte "Zuletzt" ve "ausverkauft" listelerinden artık var olmayan id'ler atılır; açık adisyonlar etkilenmez. (otonom karar)

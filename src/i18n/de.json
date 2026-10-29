@@ -27,6 +27,8 @@
   "menu.searchLabel": "Menü durchsuchen",
   "menu.searchPlaceholder": "Suchen…",
   "menu.recent": "Zuletzt",
+  "menu.allCategories": "Alle Kategorien",
+  "menu.itemCount": "{count} Artikel",
   "menu.recentEmpty": "Noch keine zuletzt bestellten Artikel.",
   "menu.noResults": "Keine Treffer für „{query}“.",
   "menu.from": "ab {price}",

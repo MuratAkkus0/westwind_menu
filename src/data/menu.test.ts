@@ -8,18 +8,42 @@ function priceOf(name: string, variantLabel = ""): number | undefined {
 }
 
 describe("menu data", () => {
-  it("has the three printed menu cards", () => {
-    expect(MENU.map((s) => s.name)).toEqual([
-      "Speisekarte",
+  it("groups the menu into the printed main categories", () => {
+    expect(MENU.map((m) => m.name)).toEqual([
+      "Frühstück",
+      "Tapas",
+      "Unsere Klassiker",
+      "Salate",
+      "Pfannkuchen",
+      "Frische Waffeln",
+      "Noch mehr Süßes",
       "Mittagstisch",
       "Saisonale Speisen",
+      "Warme Getränke",
+      "Tee",
+      "Espresso & Kaffee",
+      "Alkoholfreie Getränke",
+      "Biere",
+      "Sekt, Prosecco, Crémant & Champagner",
+      "Weine",
+      "Aperitif",
+      "Longdrinks & Cocktails",
+      "Special Drinks",
+      "Spirituosen",
+      "Zum Knabbern",
     ]);
+    const fruehstueck = MENU.find((m) => m.name === "Frühstück");
+    expect(fruehstueck?.categories.map((c) => c.name)).toEqual([
+      "Frühstück",
+      "Extras zum Frühstück",
+    ]);
+    expect(MENU.every((m) => m.categories.length > 0)).toBe(true);
   });
 
-  it("uses unique section, category and product ids", () => {
-    const sectionIds = MENU.map((s) => s.id);
-    const categoryIds = MENU.flatMap((s) => s.categories.map((c) => c.id));
-    expect(new Set(sectionIds).size).toBe(sectionIds.length);
+  it("uses unique main category, category and product ids", () => {
+    const mainIds = MENU.map((m) => m.id);
+    const categoryIds = MENU.flatMap((m) => m.categories.map((c) => c.id));
+    expect(new Set(mainIds).size).toBe(mainIds.length);
     expect(new Set(categoryIds).size).toBe(categoryIds.length);
     expect(PRODUCTS_BY_ID.size).toBe(ALL_PRODUCTS.length);
   });

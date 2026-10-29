@@ -43,7 +43,7 @@ test("takes an order with variants, options and a note, then closes the tab", as
 
   // Category chips: Cappuccino variant.
   await search(page, "");
-  await page.getByRole("button", { name: "Espresso & Kaffee" }).click();
+  await page.getByRole("button", { name: /^Espresso & Kaffee/ }).click();
   await page.getByRole("button", { name: /^Cappuccino/ }).click();
   await page.getByRole("dialog").getByLabel("groß").check();
   await page.getByRole("dialog").getByLabel("Hafermilch").check();
@@ -110,4 +110,35 @@ test("shows sold-out items as unavailable", async ({ page }) => {
 test("explains when a table is not open", async ({ page }) => {
   await page.goto("/table?number=42");
   await expect(page.getByText("Tisch 42 ist nicht geöffnet.")).toBeVisible();
+});
+
+test("browses the menu through main category cards", async ({ page }) => {
+  await openTable(page, 5);
+
+  // No section tabs any more; the menu starts with the category grid.
+  await expect(page.getByRole("tab", { name: "Speisekarte" })).toHaveCount(0);
+  await expect(
+    page.getByRole("button", { name: /^Mittagstisch/ }),
+  ).toBeVisible();
+
+  await page.getByRole("button", { name: /^Frühstück/ }).click();
+  await expect(
+    page.getByRole("heading", { name: "Extras zum Frühstück" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: /^Frischer Obstsalat/ }),
+  ).toBeVisible();
+
+  await page.getByRole("button", { name: "Alle Kategorien" }).click();
+  await page.getByRole("button", { name: /^Tapas/ }).click();
+  for (const heading of ["Veggi", "Fleisch", "Fisch"]) {
+    await expect(page.getByRole("heading", { name: heading })).toBeVisible();
+  }
+
+  await page.getByRole("button", { name: /^Gebratene Sardellen/ }).click();
+  await page.getByRole("button", { name: "Alle Kategorien" }).click();
+  await page.getByRole("button", { name: /^★ Zuletzt/ }).click();
+  await expect(
+    page.getByRole("button", { name: /^Gebratene Sardellen/ }),
+  ).toBeVisible();
 });

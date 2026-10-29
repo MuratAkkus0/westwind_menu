@@ -16,10 +16,10 @@ function product(id: string) {
 }
 
 const THAI_CURRY =
-  "speisekarte--unsere-klassiker--thai-curry-mit-gemuese-und-basmatireis-vegan";
-const CAPPUCCINO = "speisekarte--espresso-kaffee--cappuccino";
-const ESPRESSO = "speisekarte--espresso-kaffee--espresso";
-const OBSTSALAT = "speisekarte--extras-zum-fruehstueck--frischer-obstsalat";
+  "unsere-klassiker--thai-curry-mit-gemuese-und-basmatireis-vegan";
+const CAPPUCCINO = "espresso-kaffee--cappuccino";
+const ESPRESSO = "espresso-kaffee--espresso";
+const OBSTSALAT = "fruehstueck--extras-zum-fruehstueck--frischer-obstsalat";
 
 describe("parseTableNumbers", () => {
   it("accepts commas, dots, spaces and semicolons and removes duplicates", () => {

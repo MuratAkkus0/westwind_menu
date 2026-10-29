@@ -38,14 +38,15 @@ export interface Product {
   optionGroups?: OptionGroup[];
 }
 
+/** A sub-heading inside a main category, e.g. "Extras zum Frühstück". */
 export interface Category {
   id: string;
   name: string;
   products: Product[];
 }
 
-/** One printed menu card (Speisekarte, Mittagstisch, Saisonale Speisen). */
-export interface Section {
+/** A top-level menu heading shown as a card, e.g. "Frühstück" or "Tapas". */
+export interface MainCategory {
   id: string;
   name: string;
   categories: Category[];

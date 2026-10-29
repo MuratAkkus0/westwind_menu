@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
+import { PRODUCTS_BY_ID } from "@/data/menu-index";
 import { DEFAULT_LANGUAGE, type Language } from "@/i18n";
 import { orderSink } from "@/lib/order-sink";
 import {
@@ -10,7 +11,7 @@ import {
 } from "@/lib/orders";
 
 export const STORAGE_KEY = "westwind:v1";
-export const STORAGE_VERSION = 1;
+export const STORAGE_VERSION = 2;
 const MAX_HISTORY = 200;
 const MAX_RECENT = 12;
 
@@ -66,6 +67,24 @@ const initialState: PersistedState = {
   recent: [],
   settings: { language: DEFAULT_LANGUAGE },
 };
+
+/**
+ * v1 → v2: menu regrouped into main categories, which changed product ids.
+ * Unknown ids are dropped from `recent` and `soldOut`; open tabs keep working
+ * because their lines carry name and price snapshots.
+ */
+export function migrateState(persisted: unknown, version: number) {
+  const state = persisted as PersistedState;
+  if (version < 2) {
+    const known = (id: string) => PRODUCTS_BY_ID.has(id);
+    return {
+      ...state,
+      recent: (state.recent ?? []).filter(known),
+      soldOut: (state.soldOut ?? []).filter(known),
+    };
+  }
+  return state;
+}
 
 function newId(): string {
   return crypto.randomUUID();
@@ -199,6 +218,7 @@ export const useOrderStore = create<OrderState>()(
     {
       name: STORAGE_KEY,
       version: STORAGE_VERSION,
+      migrate: migrateState,
       storage: createJSONStorage(() => localStorage),
       // Rehydrated on the client by <StoreHydrator /> so the static HTML and
       // the first client render match.

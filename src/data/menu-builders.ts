@@ -3,7 +3,7 @@ import type {
   Option,
   OptionGroup,
   Product,
-  Section,
+  MainCategory,
   Station,
 } from "./menu-types";
 
@@ -104,16 +104,18 @@ function buildProduct(
   };
 }
 
-export function section(
+export function mainCategory(
   name: string,
   categories: CategoryInput[],
   id = slugify(name),
-): Section {
+): MainCategory {
   return {
     id,
     name,
     categories: categories.map((c): Category => {
-      const categoryId = `${id}--${slugify(c.name)}`;
+      // A sub-category named like its main category ("Salate" in "Salate") shares its id.
+      const slug = slugify(c.name);
+      const categoryId = slug === id ? id : `${id}--${slug}`;
       return {
         id: categoryId,
         name: c.name,

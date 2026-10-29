@@ -1,8 +1,9 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useState, type ReactNode } from "react";
 import { MENU } from "@/data/menu";
 import {
+  CATEGORY_LABELS,
   PRODUCTS_BY_ID,
   searchProducts,
   type IndexedProduct,
@@ -15,8 +16,11 @@ import { useOrderStore } from "@/store/order-store";
 
 const RECENT = "recent";
 
-const CATEGORY_NAMES = new Map(
-  MENU.flatMap((s) => s.categories.map((c) => [c.id, c.name] as const)),
+const ITEM_COUNTS = new Map(
+  MENU.map((m) => [
+    m.id,
+    m.categories.reduce((sum, c) => sum + c.products.length, 0),
+  ]),
 );
 
 interface MenuBrowserProps {
@@ -25,126 +29,176 @@ interface MenuBrowserProps {
   onOpenProduct: (product: Product) => void;
 }
 
+/**
+ * Menu tab: a grid of main-category cards (plus "Zuletzt"); tapping a card
+ * lists its products under their sub-category headings. Search spans the whole menu.
+ */
 export function MenuBrowser({ onQuickAdd, onOpenProduct }: MenuBrowserProps) {
   const t = useTranslation();
   const recentIds = useOrderStore((s) => s.recent);
   const soldOut = useOrderStore((s) => s.soldOut);
-  const [sectionId, setSectionId] = useState(MENU[0].id);
-  const [categoryId, setCategoryId] = useState<string>(
-    MENU[0].categories[0].id,
-  );
+  /** null shows the category grid. */
+  const [openId, setOpenId] = useState<string | null>(null);
   const [query, setQuery] = useState("");
 
-  const section = MENU.find((s) => s.id === sectionId) ?? MENU[0];
+  const searching = query.trim().length > 0;
+  const main = MENU.find((m) => m.id === openId);
 
-  const entries: IndexedProduct[] = useMemo(() => {
-    if (query.trim()) return searchProducts(query);
-    if (categoryId === RECENT) {
-      return recentIds.flatMap((id) => PRODUCTS_BY_ID.get(id) ?? []);
-    }
-    const category = section.categories.find((c) => c.id === categoryId);
-    return (category?.products ?? []).flatMap(
-      (p) => PRODUCTS_BY_ID.get(p.id) ?? [],
-    );
-  }, [query, categoryId, recentIds, section]);
-
-  function selectSection(id: string) {
-    const next = MENU.find((s) => s.id === id) ?? MENU[0];
-    setSectionId(next.id);
-    setCategoryId(next.categories[0].id);
+  function open(id: string | null) {
+    setOpenId(id);
+    window.scrollTo({ top: 0 });
   }
 
-  const searching = query.trim().length > 0;
-  const chip = (active: boolean) =>
-    `h-9 shrink-0 rounded-full border px-3 text-sm whitespace-nowrap ${
-      active
-        ? "border-primary bg-primary text-primary-fg"
-        : "border-border bg-surface"
-    }`;
+  const row = (entry: IndexedProduct, showCategory = false) => (
+    <ProductRow
+      key={entry.product.id}
+      product={entry.product}
+      subtitle={
+        showCategory ? CATEGORY_LABELS.get(entry.categoryId) : undefined
+      }
+      soldOut={soldOut.includes(entry.product.id)}
+      onQuickAdd={onQuickAdd}
+      onOpen={onOpenProduct}
+    />
+  );
+
+  let content: ReactNode;
+  if (searching) {
+    const results = searchProducts(query);
+    content =
+      results.length === 0 ? (
+        <EmptyText>{t("menu.noResults", { query: query.trim() })}</EmptyText>
+      ) : (
+        <ul className="divide-y divide-border">
+          {results.map((e) => row(e, true))}
+        </ul>
+      );
+  } else if (openId === RECENT) {
+    const recent = recentIds.flatMap((id) => PRODUCTS_BY_ID.get(id) ?? []);
+    content =
+      recent.length === 0 ? (
+        <EmptyText>{t("menu.recentEmpty")}</EmptyText>
+      ) : (
+        <ul className="divide-y divide-border">
+          {recent.map((e) => row(e, true))}
+        </ul>
+      );
+  } else if (main) {
+    content = main.categories.map((category) => (
+      <section key={category.id} aria-labelledby={`heading-${category.id}`}>
+        {/* A sub-category that repeats the main name needs no extra heading. */}
+        <h3
+          id={`heading-${category.id}`}
+          className={
+            category.id === main.id
+              ? "sr-only"
+              : "bg-surface-muted px-4 py-2 text-sm font-semibold tracking-wide text-muted uppercase"
+          }
+        >
+          {category.name}
+        </h3>
+        <ul className="divide-y divide-border">
+          {category.products.flatMap((p) => {
+            const entry = PRODUCTS_BY_ID.get(p.id);
+            return entry ? [row(entry)] : [];
+          })}
+        </ul>
+      </section>
+    ));
+  } else {
+    content = (
+      <ul className="grid grid-cols-3 gap-3 p-3 sm:grid-cols-4">
+        <li>
+          <CategoryCard
+            name={`★ ${t("menu.recent")}`}
+            detail={t("menu.itemCount", { count: recentIds.length })}
+            highlighted
+            onClick={() => open(RECENT)}
+          />
+        </li>
+        {MENU.map((m) => (
+          <li key={m.id}>
+            <CategoryCard
+              name={m.name}
+              detail={t("menu.itemCount", {
+                count: ITEM_COUNTS.get(m.id) ?? 0,
+              })}
+              onClick={() => open(m.id)}
+            />
+          </li>
+        ))}
+      </ul>
+    );
+  }
+
+  const title = openId === RECENT ? t("menu.recent") : main?.name;
 
   return (
     <div className="flex flex-col">
-      <div className="sticky top-26 z-10 border-b border-border bg-bg">
-        <div role="tablist" className="flex gap-1 px-3 pt-3">
-          {MENU.map((s) => (
-            <button
-              key={s.id}
-              type="button"
-              role="tab"
-              aria-selected={!searching && s.id === sectionId}
-              onClick={() => {
-                setQuery("");
-                selectSection(s.id);
-              }}
-              className={`h-10 flex-1 truncate rounded-lg px-2 text-sm font-semibold ${
-                !searching && s.id === sectionId
-                  ? "bg-surface text-primary shadow-sm"
-                  : "text-muted"
-              }`}
-            >
-              {s.name}
-            </button>
-          ))}
-        </div>
-        <div className="px-3 pt-2">
-          <input
-            type="search"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            aria-label={t("menu.searchLabel")}
-            placeholder={t("menu.searchPlaceholder")}
-            className="h-11 w-full rounded-xl border border-border bg-surface px-3 outline-none focus:border-primary"
-          />
-        </div>
-        {!searching && (
-          <div className="no-scrollbar flex gap-2 overflow-x-auto px-3 py-2">
+      <div className="sticky top-26 z-10 border-b border-border bg-bg px-3 py-2">
+        <input
+          type="search"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          aria-label={t("menu.searchLabel")}
+          placeholder={t("menu.searchPlaceholder")}
+          className="h-11 w-full rounded-xl border border-border bg-surface px-3 outline-none focus:border-primary"
+        />
+        {!searching && title && (
+          <div className="mt-2 flex items-center gap-2">
             <button
               type="button"
-              aria-pressed={categoryId === RECENT}
-              onClick={() => setCategoryId(RECENT)}
-              className={chip(categoryId === RECENT)}
+              onClick={() => open(null)}
+              className="flex h-10 items-center gap-1 rounded-lg pr-3 text-sm font-semibold text-primary active:bg-surface-muted"
             >
-              ★ {t("menu.recent")}
+              <span aria-hidden className="text-xl leading-none">
+                ‹
+              </span>
+              {t("menu.allCategories")}
             </button>
-            {section.categories.map((c) => (
-              <button
-                key={c.id}
-                type="button"
-                aria-pressed={c.id === categoryId}
-                onClick={() => setCategoryId(c.id)}
-                className={chip(c.id === categoryId)}
-              >
-                {c.name}
-              </button>
-            ))}
+            <h2 className="min-w-0 flex-1 truncate text-right font-semibold">
+              {title}
+            </h2>
           </div>
         )}
-        {searching && <div className="h-2" />}
       </div>
-
-      {entries.length === 0 ? (
-        <p className="p-6 text-center text-muted">
-          {searching
-            ? t("menu.noResults", { query: query.trim() })
-            : t("menu.recentEmpty")}
-        </p>
-      ) : (
-        <ul className="divide-y divide-border">
-          {entries.map(({ product, categoryId: productCategory }) => (
-            <ProductRow
-              key={product.id}
-              product={product}
-              subtitle={
-                searching ? CATEGORY_NAMES.get(productCategory) : undefined
-              }
-              soldOut={soldOut.includes(product.id)}
-              onQuickAdd={onQuickAdd}
-              onOpen={onOpenProduct}
-            />
-          ))}
-        </ul>
-      )}
+      {content}
     </div>
+  );
+}
+
+function EmptyText({ children }: { children: ReactNode }) {
+  return <p className="p-6 text-center text-muted">{children}</p>;
+}
+
+interface CategoryCardProps {
+  name: string;
+  detail: string;
+  highlighted?: boolean;
+  onClick: () => void;
+}
+
+function CategoryCard({
+  name,
+  detail,
+  highlighted,
+  onClick,
+}: CategoryCardProps) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`flex aspect-square w-full flex-col items-center justify-center gap-1 rounded-2xl border p-2 text-center shadow-sm active:scale-95 ${
+        highlighted
+          ? "border-accent bg-accent text-accent-fg"
+          : "border-border bg-surface"
+      }`}
+    >
+      <span className="text-sm leading-tight font-semibold break-words hyphens-auto">
+        {name}
+      </span>
+      <span className="text-xs opacity-70">{detail}</span>
+    </button>
   );
 }
 

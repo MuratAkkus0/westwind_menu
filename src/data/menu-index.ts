@@ -3,7 +3,7 @@ import type { Product } from "./menu-types";
 
 export interface IndexedProduct {
   product: Product;
-  sectionId: string;
+  mainCategoryId: string;
   categoryId: string;
   /** Lowercased, accent-free name and description for search. */
   searchText: string;
@@ -18,11 +18,11 @@ export function normalizeSearch(text: string): string {
     .replace(/[̀-ͯ]/g, "");
 }
 
-export const ALL_PRODUCTS: IndexedProduct[] = MENU.flatMap((section) =>
-  section.categories.flatMap((category) =>
+export const ALL_PRODUCTS: IndexedProduct[] = MENU.flatMap((main) =>
+  main.categories.flatMap((category) =>
     category.products.map((product) => ({
       product,
-      sectionId: section.id,
+      mainCategoryId: main.id,
       categoryId: category.id,
       searchText: normalizeSearch(
         `${product.name} ${product.description ?? ""}`,
@@ -33,6 +33,16 @@ export const ALL_PRODUCTS: IndexedProduct[] = MENU.flatMap((section) =>
 
 export const PRODUCTS_BY_ID: ReadonlyMap<string, IndexedProduct> = new Map(
   ALL_PRODUCTS.map((entry) => [entry.product.id, entry]),
+);
+
+/** "Tapas · Fisch", or just "Salate" when the sub-category repeats the main name. */
+export const CATEGORY_LABELS: ReadonlyMap<string, string> = new Map(
+  MENU.flatMap((main) =>
+    main.categories.map((c) => [
+      c.id,
+      c.id === main.id ? main.name : `${main.name} · ${c.name}`,
+    ]),
+  ),
 );
 
 export function searchProducts(query: string): IndexedProduct[] {

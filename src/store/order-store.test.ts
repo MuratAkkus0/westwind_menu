@@ -1,9 +1,9 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import type { LineInput } from "@/lib/orders";
-import { STORAGE_KEY, useOrderStore } from "./order-store";
+import { STORAGE_KEY, migrateState, useOrderStore } from "./order-store";
 
 const espresso: LineInput = {
-  productId: "speisekarte--espresso-kaffee--espresso",
+  productId: "espresso-kaffee--espresso",
   productName: "Espresso",
   variantId: "default",
   variantLabel: "",
@@ -94,8 +94,23 @@ describe("order store", () => {
     store().addTables([5]);
     store().toggleSoldOut("x");
     const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) ?? "{}");
-    expect(saved.version).toBe(1);
+    expect(saved.version).toBe(2);
     expect(Object.keys(saved.state.tabs)).toEqual(["5"]);
     expect(saved.state.soldOut).toEqual(["x"]);
+  });
+
+  it("drops product ids that no longer exist when migrating from v1", () => {
+    const migrated = migrateState(
+      {
+        tabs: {},
+        history: [],
+        soldOut: ["speisekarte--espresso-kaffee--espresso", espresso.productId],
+        recent: ["speisekarte--tee--frische-minze", espresso.productId],
+        settings: { language: "de" },
+      },
+      1,
+    );
+    expect(migrated.soldOut).toEqual([espresso.productId]);
+    expect(migrated.recent).toEqual([espresso.productId]);
   });
 });
