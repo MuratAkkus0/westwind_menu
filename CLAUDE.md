@@ -26,7 +26,7 @@ Westwind restoranı için garson telefonunda çalışan, localStorage tabanlı m
 
 ### Aşama akışı
 1. Kabul kriterlerini oku → 2. geliştir, anlamlı adımlarda commit → 3. bitti: lint, typecheck, test, E2E, build →
-4. planda durumu güncelle, push → 5. dur, özetle ve onay bekle.
+4. planda durumu güncelle, push → 5. otonom mod (kullanıcı kararı): aşamalar arasında durmadan devam et, sonunda tek özet ver.
 
 ## Teknik
 - Next.js App Router, statik export; pnpm; Zustand persist (`westwind:v1`); Tailwind, renkler tek token dosyasında.

@@ -98,7 +98,7 @@ Yok. Kapanan kararlar:
 
 - Commit ve push izni verildi (repo: https://github.com/MuratAkkus0/westwind_menu.git, dal: `main`).
 - Commit mesajı: tek satır, İngilizce, Conventional Commits, AI atıf/Co-Authored-By satırı yok.
-- Aşama aşama ilerlenir; her aşama sonunda özet + onay.
+- Otonom mod: aşamalar arasında durulmaz; yeni kararlar "(otonom karar)" ile bu dosyaya eklenir, sonunda tek özet verilir.
 
 ## Aşama 1 — otonom kararlar
 
