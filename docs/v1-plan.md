@@ -40,7 +40,7 @@ Durum: ⬜ başlamadı · 🔄 devam ediyor · ✅ bitti
 **Kabul:** E2E: `3,14,2` → üç kutu; tekrar `3` → "zaten var"; geçersiz girdi hata verir; yenilemede masalar durur.
 
 ## 4. Sipariş ekranı
-- Bölüm sekmeleri, kategori çipleri, arama, son kullanılanlar, varyant ve ekstra seçimi, not, adet ±, silme, toplam, hesabı kapat, iptal, tükendi anahtarı.
+- Ana kategori kart grid'i (alt kategori başlıklarıyla liste), arama, son kullanılanlar, varyant ve ekstra seçimi, not, adet ±, silme, toplam, hesabı kapat, iptal, tükendi anahtarı. (İlk sürümdeki bölüm sekmeleri ve kategori çipleri 2026-10-29'da kaldırıldı; bkz. kararlar.md.)
 
 **Kabul:** E2E: masa aç → ürün ekle (varyant + ekstra + not) → toplam doğru → hesabı kapat; fiyat snapshot testi.
 
