@@ -34,11 +34,15 @@ export interface TableNumberParse {
   invalid: string[];
 }
 
-/** Parses "3, 14,2" (commas, semicolons or spaces) into unique table numbers. */
+/**
+ * Parses "3, 14,2" into unique table numbers. Commas, dots, semicolons and
+ * spaces all separate numbers, because phone number pads differ in which
+ * separator key they offer.
+ */
 export function parseTableNumbers(input: string): TableNumberParse {
   const numbers: number[] = [];
   const invalid: string[] = [];
-  for (const token of input.split(/[\s,;]+/).filter(Boolean)) {
+  for (const token of input.split(/[\s,;.]+/).filter(Boolean)) {
     const value = /^\d+$/.test(token) ? Number(token) : NaN;
     if (!Number.isInteger(value) || value < 1 || value > MAX_TABLE_NUMBER) {
       invalid.push(token);

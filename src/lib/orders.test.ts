@@ -22,17 +22,17 @@ const ESPRESSO = "speisekarte--espresso-kaffee--espresso";
 const OBSTSALAT = "speisekarte--extras-zum-fruehstueck--frischer-obstsalat";
 
 describe("parseTableNumbers", () => {
-  it("accepts commas, spaces and semicolons and removes duplicates", () => {
-    expect(parseTableNumbers("3, 14,2;3  7")).toEqual({
-      numbers: [3, 14, 2, 7],
+  it("accepts commas, dots, spaces and semicolons and removes duplicates", () => {
+    expect(parseTableNumbers("3, 14,2;3  7.8")).toEqual({
+      numbers: [3, 14, 2, 7, 8],
       invalid: [],
     });
   });
 
   it("reports invalid tokens", () => {
-    expect(parseTableNumbers("0, a, 1000, -2, 4.5, 5")).toEqual({
+    expect(parseTableNumbers("0, a, 1000, -2, 5")).toEqual({
       numbers: [5],
-      invalid: ["0", "a", "1000", "-2", "4.5"],
+      invalid: ["0", "a", "1000", "-2"],
     });
   });
 

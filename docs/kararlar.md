@@ -120,3 +120,9 @@ Yok. Kapanan kararlar:
 - Kapanan adisyonlar `history` içinde en fazla 200 kayıt tutulur (localStorage'ı şişirmemek için); v1'de görüntülenmez, v2'deki gün sonu raporuna veri olur. (otonom karar)
 - "Son kullanılanlar" en fazla 12 ürün tutar. (otonom karar)
 - Kasa entegrasyonu kancası: `src/lib/order-sink.ts` (`tabClosed`), v1'de boş. (otonom karar)
+
+## Aşama 3 — otonom kararlar
+
+- Masa numarası girişinde virgül, nokta, noktalı virgül ve boşluk ayırıcıdır (`3.14.2` de çalışır), çünkü telefonların sayı klavyelerinde farklı ayırıcı tuşları var. Alan `inputMode="decimal"` ile sayı klavyesi açar. (otonom karar)
+- Masa numarası 1–999 arası tam sayı. Geçersiz girdide geçerli numaralar yine eklenir, girdi alanı düzeltme için silinmez. (otonom karar)
+- Masa kutuları numaraya göre sıralı; siparişi olan masa dolu renkte, kalem sayısı ve toplamı gösterir. (otonom karar)
