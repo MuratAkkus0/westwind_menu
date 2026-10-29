@@ -110,3 +110,13 @@ Yok. Kapanan kararlar:
 - Saisonale Speisen'deki Elbling, Saisonal kartında ayrıca duruyor (0,1l fiyatı orada 3,50 €; Speisekarte'de 3,60 €). (otonom karar)
 - Zusatzstoffe yalnızca ürün düzeyinde ve PDF'te açıkça işaretli olanlar için girildi; varyanta bağlı işaretler (ör. Rühreier mit Speckwürfeln) girilmedi. (otonom karar)
 - PDF yazım düzeltmeleri: Mandekuchen → Mandelkuchen, Serrano Schinke → Schinken, Gratein & Meyer Crémat → Gratien & Meyer Crémant, Pigueras → Piqueras, Blody Mary → Bloody Mary, Pringels → Pringles, Ramazotti → Ramazzotti, Roibush → Rooibos, Bailey's → Baileys, Glühgin fiyatındaki fazladan "(" atıldı. "Pimentos del Patron" ve "Fuetec" PDF'teki gibi bırakıldı. (otonom karar)
+
+## Aşama 2 — otonom kararlar
+
+- Renk token'ları `src/app/theme.css` dosyasında; Tailwind adları `bg-surface`, `text-muted`, `bg-primary` vb. Varsayılan palet denizci lacivert + kum (açık/koyu sistem temasına göre). (otonom karar)
+- Arayüz metinleri `src/i18n/de.json`; `useTranslation()` dili store'daki ayardan alır. (otonom karar)
+- Store localStorage'ı ilk client render'dan sonra okur (`skipHydration` + `StoreHydrator`); okunana kadar sayfalar "Lädt…" gösterir. Böylece statik HTML ile ilk render çakışmaz. (otonom karar)
+- Aynı ürün + varyant + seçenekler + not ile eklenen kalem yeni satır açmaz, adedi artırır. (otonom karar)
+- Kapanan adisyonlar `history` içinde en fazla 200 kayıt tutulur (localStorage'ı şişirmemek için); v1'de görüntülenmez, v2'deki gün sonu raporuna veri olur. (otonom karar)
+- "Son kullanılanlar" en fazla 12 ürün tutar. (otonom karar)
+- Kasa entegrasyonu kancası: `src/lib/order-sink.ts` (`tabClosed`), v1'de boş. (otonom karar)

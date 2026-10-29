@@ -1,0 +1,55 @@
+/* Single source of truth for all colours. Components use the Tailwind names
+   below (bg-surface, text-muted, …) and never hard-code colour values. */
+
+:root {
+  --ww-bg: #f6f3ee;
+  --ww-surface: #ffffff;
+  --ww-surface-muted: #ece7df;
+  --ww-text: #1c2430;
+  --ww-muted: #5f6b7a;
+  --ww-border: #d9d2c6;
+  --ww-primary: #1f3a5f;
+  --ww-primary-fg: #ffffff;
+  --ww-accent: #c8743a;
+  --ww-accent-fg: #ffffff;
+  --ww-danger: #b42318;
+  --ww-danger-fg: #ffffff;
+  --ww-success: #1d7a46;
+  --ww-backdrop: rgb(16 22 32 / 0.5);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ww-bg: #11161d;
+    --ww-surface: #1a212b;
+    --ww-surface-muted: #242d39;
+    --ww-text: #eef1f5;
+    --ww-muted: #9aa6b5;
+    --ww-border: #2f3a48;
+    --ww-primary: #7fa7d9;
+    --ww-primary-fg: #0d1520;
+    --ww-accent: #e39a62;
+    --ww-accent-fg: #1a1009;
+    --ww-danger: #f0776c;
+    --ww-danger-fg: #1f0805;
+    --ww-success: #5cc58a;
+    --ww-backdrop: rgb(0 0 0 / 0.6);
+  }
+}
+
+@theme inline {
+  --color-bg: var(--ww-bg);
+  --color-surface: var(--ww-surface);
+  --color-surface-muted: var(--ww-surface-muted);
+  --color-text: var(--ww-text);
+  --color-muted: var(--ww-muted);
+  --color-border: var(--ww-border);
+  --color-primary: var(--ww-primary);
+  --color-primary-fg: var(--ww-primary-fg);
+  --color-accent: var(--ww-accent);
+  --color-accent-fg: var(--ww-accent-fg);
+  --color-danger: var(--ww-danger);
+  --color-danger-fg: var(--ww-danger-fg);
+  --color-success: var(--ww-success);
+  --color-backdrop: var(--ww-backdrop);
+}
